@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const itemName = ref('')
 const quantity = ref('')
@@ -11,8 +11,15 @@ const shoppingList = ref([
     name: 'Apple',
     quantity: 2,
     category: 'Fruits',
+    purchased: false,
   },
 ])
+
+// Computed ref - update real time
+const countAll = computed(() => shoppingList.value.length)
+const countPurchased = computed(() => {
+  return shoppingList.value.filter((item) => item.purchased).length
+})
 
 function handleAddNewItem() {
   // Create a new item
@@ -21,6 +28,7 @@ function handleAddNewItem() {
     name: itemName.value,
     quantity: quantity.value,
     category: category.value,
+    purchased: false,
   }
   // Add a new item to the shopping list
   shoppingList.value.push(newItem)
@@ -65,6 +73,7 @@ function handleDeleteItem(id) {
       type="text"
       name="category"
       list="category"
+      placeholder="add category"
       class="border border-gray-300"
     />
     <!-- Using datalist for a pre-defined options for an input element -->
@@ -102,8 +111,10 @@ function handleDeleteItem(id) {
   <!-- Display shopping list-->
   <ul>
     <li v-for="item in shoppingList" :key="item.id">
-      {{ item.name }} - {{ item.quantity }} - {{ item.category }}
+      <input v-model="item.purchased" type="checkbox" />
+      <span>{{ item.name }} - {{ item.quantity }} - {{ item.category }}</span>
       <button @click="handleDeleteItem(item.id)">Delete</button>
     </li>
   </ul>
+  <p>Purchased {{ countPurchased }} of {{ countAll }} items</p>
 </template>
