@@ -1,6 +1,28 @@
 <script setup>
 import { ref, computed } from 'vue'
 
+// example of shopping list categories
+const PRESET_CATEGORIES = [
+  'Beverages',
+  'Bread & baked',
+  'Canned goods',
+  'Cereals',
+  'Cleaning',
+  'Condiments & Spices',
+  'Dairy',
+  'Fish&Seafood',
+  'Frozen foods',
+  'Fruits',
+  'Household',
+  'Meat',
+  'Others',
+  'Pasta/rice',
+  'Personal care',
+  'Pet care',
+  'Snacks',
+  'Vegetables',
+]
+
 const itemName = ref('')
 const quantity = ref('')
 const category = ref('')
@@ -83,25 +105,13 @@ function handleDeleteItem(id) {
       class="border border-gray-300"
     />
     <!-- Using datalist for a pre-defined options for an input element -->
+    <!-- Using index as a key because this option list won't be change -->
     <datalist id="category">
-      <option value="Fruits" />
-      <option value="Vegetables" />
-      <option value="Dairy" />
-      <option value="Bread & baked" />
-      <option value="Meat" />
-      <option value="Fish&Seafood" />
-      <option value="Canned goods" />
-      <option value="Pasta/rice" />
-      <option value="Cereals" />
-      <option value="Condiments & Spices" />
-      <option value="Frozen foods" />
-      <option value="Snacks" />
-      <option value="Beverages" />
-      <option value="Household" />
-      <option value="Cleaning" />
-      <option value="Personal care" />
-      <option value="Pet care" />
-      <option value="Others" />
+      <option
+        v-for="(category, index) in PRESET_CATEGORIES"
+        :value="category"
+        :key="index"
+      />
     </datalist>
 
     <!-- Disable the button when there is no centent using v-bind -->
