@@ -29,6 +29,11 @@ function handleAddNewItem() {
   quantity.value = ''
   category.value = ''
 }
+
+function handleDeleteItem(id) {
+  // Filter out the item with the given id
+  shoppingList.value = shoppingList.value.filter((item) => item.id !== id)
+}
 </script>
 
 <template>
@@ -98,6 +103,7 @@ function handleAddNewItem() {
   <ul>
     <li v-for="item in shoppingList" :key="item.id">
       {{ item.name }} - {{ item.quantity }} - {{ item.category }}
+      <button @click="handleDeleteItem(item.id)">Delete</button>
     </li>
   </ul>
 </template>
