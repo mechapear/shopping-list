@@ -4,6 +4,7 @@ import { ref, computed } from 'vue'
 const itemName = ref('')
 const quantity = ref('')
 const category = ref('')
+const showPurchasedItem = ref(false)
 
 const shoppingList = ref([
   {
@@ -16,10 +17,15 @@ const shoppingList = ref([
 ])
 
 // Computed ref - update real time
-const countAll = computed(() => shoppingList.value.length)
-const countPurchased = computed(() => {
-  return shoppingList.value.filter((item) => item.purchased).length
+const unpurchasedItemList = computed(() => {
+  return shoppingList.value.filter((item) => !item.purchased)
 })
+const purchasedItemList = computed(() => {
+  return shoppingList.value.filter((item) => item.purchased)
+})
+
+const countAll = computed(() => shoppingList.value.length)
+const countPurchased = computed(() => purchasedItemList.value.length)
 
 function handleAddNewItem() {
   // Create a new item
@@ -109,12 +115,32 @@ function handleDeleteItem(id) {
   </form>
 
   <!-- Display shopping list-->
+  <!-- Unpurchased Item List -->
   <ul>
-    <li v-for="item in shoppingList" :key="item.id">
+    <li v-for="item in unpurchasedItemList" :key="item.id">
       <input v-model="item.purchased" type="checkbox" />
       <span>{{ item.name }} - {{ item.quantity }} - {{ item.category }}</span>
       <button @click="handleDeleteItem(item.id)">Delete</button>
     </li>
   </ul>
+
+  <!-- Purchased Item List -->
+  <div>
+    <button @click="showPurchasedItem = !showPurchasedItem" type="button">
+      {{ showPurchasedItem ? 'Hide' : 'Show' }}
+    </button>
+    <p>Purchased item</p>
+  </div>
+
+  <!-- Hide or show the purchased item list depends on the value of showPurchasedItem -->
+  <!-- If it is true, display the list -->
+  <ul v-if="showPurchasedItem">
+    <li v-for="item in purchasedItemList" :key="item.id">
+      <input v-model="item.purchased" type="checkbox" />
+      <span>{{ item.name }} - {{ item.quantity }} - {{ item.category }}</span>
+      <button @click="handleDeleteItem(item.id)">Delete</button>
+    </li>
+  </ul>
+
   <p>Purchased {{ countPurchased }} of {{ countAll }} items</p>
 </template>
