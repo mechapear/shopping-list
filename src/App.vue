@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 
 // example of shopping list categories
 const PRESET_CATEGORIES = [
@@ -26,17 +26,8 @@ const PRESET_CATEGORIES = [
 const itemName = ref('')
 const quantity = ref('')
 const category = ref('')
+const shoppingList = ref([])
 const showPurchasedItem = ref(false)
-
-const shoppingList = ref([
-  {
-    id: 1,
-    name: 'Apple',
-    quantity: 2,
-    category: 'Fruits',
-    purchased: false,
-  },
-])
 
 // Computed ref - update real time
 const unpurchasedItemList = computed(() => {
@@ -48,6 +39,22 @@ const purchasedItemList = computed(() => {
 
 const countAll = computed(() => shoppingList.value.length)
 const countPurchased = computed(() => purchasedItemList.value.length)
+
+// If the shopping list is changed, save it to the local storage
+watch(
+  shoppingList,
+  (newShoppingList) => {
+    localStorage.setItem('shoppingList', JSON.stringify(newShoppingList))
+  },
+  // Prevent the watcher from not watching .push()
+  { deep: true },
+)
+
+// When the component is mounted, get the shopping list from the local storage
+// If it is null, set it to an empty array
+onMounted(() => {
+  shoppingList.value = JSON.parse(localStorage.getItem('shoppingList')) || []
+})
 
 function handleAddNewItem() {
   // Create a new item
