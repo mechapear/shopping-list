@@ -13,6 +13,6 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    'prettier/prettier': 'warn'
+    'prettier/prettier': 'warn',
   },
 }

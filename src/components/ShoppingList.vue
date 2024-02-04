@@ -55,7 +55,7 @@ function handleDeleteItem(id) {
               color: isPurchasedList ? 'rgb(209 213 219)' : 'rgb(107 114 128)',
               // isPurchasedList ? text-base : text-sm
               'font-size': isPurchasedList ? '1rem' : '0.875rem',
-              'line-height': isPurchasedList ? '1.5rem' : '1.25rem'
+              'line-height': isPurchasedList ? '1.5rem' : '1.25rem',
             }"
             >x {{ item.quantity }}</span
           >
