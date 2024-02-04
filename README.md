@@ -1,5 +1,7 @@
 # Shopping List
 
+Live Demo: https://mechapear.github.io/shopping-list/
+
 ![App Screenshot](screenshots/screenshot1.png)
 ![App Screenshot](screenshots/screenshot2.png)
 ![App Screenshot](screenshots/screenshot3.png)
